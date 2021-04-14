@@ -43,15 +43,15 @@ public class MyLocationActivity extends AppCompatActivity {
             public void onLocationChanged(@NonNull Location location) {
                 myLocField.setText(
                         "Lastitude: " + location.getLatitude()
-                        + "\nLongtitude: " + location.getLongitude()
-                        + "\nAltitude:" + location.getAltitude());
+                                + "\nLongtitude: " + location.getLongitude()
+                                + "\nAltitude:" + location.getAltitude());
 
             }
         };
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(MyLocationActivity.this,
                     "First enable LOCATION ACCESS in settings.", Toast.LENGTH_LONG).show();
@@ -59,9 +59,8 @@ public class MyLocationActivity extends AppCompatActivity {
         }
 
 
-
         locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                0,0, locListener);
+                0, 0, locListener);
 
         //locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0, 0, locListener);
         //locManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0,locListener );
@@ -70,11 +69,21 @@ public class MyLocationActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        locManager. removeUpdates(locListener);
+        locManager.removeUpdates(locListener);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(MyLocationActivity.this,
+                    "First enable LOCATION ACCESS in settings.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                0, 0, locListener);
     }
 }
